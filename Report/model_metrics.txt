@@ -1,0 +1,89 @@
+MODEL METRICS SUMMARY
+=====================
+
+Evaluation Metric:
+- Root Mean Squared Error (RMSE)
+- Lower values indicate better out-of-sample predictive performance
+
+Train/Test Split:
+- Time-based split
+- Training: historical data up to split point
+- Testing: held-out future period (strictly out-of-sample)
+
+
+MODELS EVALUATED
+----------------
+
+1. Seasonal Naive Baseline
+   Description:
+   - Predicts traffic volume using the observed value from the same hour one week earlier
+   Features Used:
+   - None (historical traffic only)
+   Parameters / Hyperparameters:
+   - Seasonal lag: 168 hours (7 days)
+   RMSE:
+   - 645.64
+
+
+2. SARIMA (No Seasonality)
+   Description:
+   - Autoregressive time-series model without explicit seasonal structure
+   Features Used:
+   - None (traffic volume only)
+   Parameters / Hyperparameters:
+   - Order: (1, 0, 0)
+   RMSE:
+   - 3857.64
+
+
+3. SARIMA (Daily Seasonality)
+   Description:
+   - SARIMA model with explicit daily seasonal structure
+   Features Used:
+   - None (traffic volume only)
+   Parameters / Hyperparameters:
+   - Order: (1, 0, 0)
+   - Seasonal Order: (0, 1, 1, 24)
+   RMSE:
+   - 982.74
+
+
+4. SARIMAX (Full Exogenous, No Seasonality)
+   Description:
+   - SARIMAX model using full exogenous feature set without seasonal structure
+   Features Used:
+   - Weather variables
+   - Holiday indicators
+   Parameters / Hyperparameters:
+   - Order: (1, 0, 0)
+   RMSE:
+   - 2015.26
+
+
+5. SARIMAX (Daily Seasonality + Light Exogenous)
+   Description:
+   - SARIMAX model with daily seasonality and reduced exogenous feature set
+   Features Used:
+   - Temperature
+   - Rain (1h)
+   - Snow (1h)
+   - Cloud coverage
+   - Holiday indicator
+   Parameters / Hyperparameters:
+   - Order: (1, 0, 0)
+   - Seasonal Order: (0, 1, 1, 24)
+   RMSE:
+   - 957.92
+
+
+FINAL MODEL SELECTION
+---------------------
+
+Selected Model:
+- Seasonal Naive Baseline
+
+Reason for Selection:
+- Achieved the lowest RMSE among all evaluated models
+- More complex models did not improve predictive accuracy
+- Provides strong interpretability and minimal computational overhead
+- Best suited for short-term (up to 7 days) hourly traffic forecasting
